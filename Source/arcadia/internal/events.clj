@@ -80,5 +80,10 @@
     OnSubmit [BaseEventData]
     OnUpdateSelected [BaseEventData]})
 
+(def special-hooks
+  '{AroundSerializeData [clojure.lang.IFn System.Object]
+    AroundDeserializeData [clojure.lang.IFn System.Object]})
+
 (def all-events
-  (merge events interface-events))
+  (merge events interface-events special-hooks))
+
