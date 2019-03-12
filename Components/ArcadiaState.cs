@@ -190,6 +190,7 @@ public class ArcadiaState : MonoBehaviour, ISerializationCallbackReceiver
 
 	void OnDestroy ()
 	{
+		Initialize(); // I suppose OnDestroy can run before Awake if you've loaded and call DestroyImmediate before Instantiate?
 		if (ReferenceEquals(HookStateSystem.arcadiaState, this)) {
 			HookStateSystem.Clear();
 		}
@@ -200,6 +201,7 @@ public class ArcadiaState : MonoBehaviour, ISerializationCallbackReceiver
 
 	public clojure.lang.IPersistentMap ToPersistentMap ()
 	{
+		Initialize();
 		return state.ToPersistentMap();
 	}
 
@@ -221,11 +223,13 @@ public class ArcadiaState : MonoBehaviour, ISerializationCallbackReceiver
 
 	public bool ContainsKey (object k)
 	{
+		Initialize();
 		return state.ContainsKey(k);
 	}
 
 	public void Add (object k, object v)
 	{
+		Initialize();
 		state.Add((Keyword)k, v);
 	}
 
@@ -272,6 +276,14 @@ public class ArcadiaState : MonoBehaviour, ISerializationCallbackReceiver
 		if (state.TryGetValue((Keyword)k, out v)) {
 			return v;
 		}
+		// need to consider case that we're being read from after loading as a prefab but before Awake is called.
+		// Awake only gets called when we enter the scene graph, which Resources.Load doesn't do; that happens
+		// when it is composed with Instantiate. 
+		if (!fullyInitialized) {
+			Initialize();
+			return ValueAtKey(k);
+		}
+		
 		return null;
 	}
 
