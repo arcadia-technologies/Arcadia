@@ -1,7 +1,7 @@
 (ns arcadia.internal.socket-repl
   (:require [clojure.core.server :as s]
-            [arcadia.internal.editor-callbacks :as cb]
-            [arcadia.internal.config :as config]
+            #_ [arcadia.internal.editor-callbacks :as cb]
+            #_ [arcadia.internal.config :as config]
             [clojure.main :as m]
             [arcadia.internal.state :as state]
             [arcadia.internal.stacktrace :as stacktrace]
@@ -99,12 +99,13 @@
 (defn game-thread-eval
   ([expr] (game-thread-eval expr nil))
   ([expr {:keys [callback-driver]
-          :or {callback-driver cb/add-callback}
+          ; :or {callback-driver cb/add-callback}
           :as opts}]
    (let [old-read-eval *read-eval*
          p (promise)
-         injection (clean-quotes ((config/config) :repl/injections))
-         expr `(do ~injection ~expr)]
+         ; injection (clean-quotes ((config/config) :repl/injections))
+         ; expr `(do ~injection ~expr)
+         ]
      (callback-driver
        (register-eval-type
          (bound-fn []
@@ -144,7 +145,7 @@
 
 ;; separate function from repl-caught because this is used by NRepl.cs
 (defn error-string [e]
-  (let [error-opts (merge stacktrace/default-opts (:error-options (config/config)))]
+  (let [error-opts stacktrace/default-opts #_ (:error-options (config/config))]
     (stacktrace/exception-str e, error-opts)))
 
 ;; Our seemingly less broken variant of clojure.main/repl-caught,
@@ -166,6 +167,14 @@
    :name "default-server"
    :accept `repl})
 
+ (defn exported-repl [callback-driver]
+   (m/repl
+    :init s/repl-init
+    :read #'repl-read
+    :print identity
+    :caught #'repl-caught
+    :eval #(game-thread-eval % {:callback-driver callback-driver})))
+
 ;; see also clojure.core.server/start-servers, etc
 (defn start-server
   ([] (start-server nil))
@@ -178,6 +187,7 @@
 
 ;; we could hook this up elsewhere too
 
+#_
 (defn server-reactive
   ([]
    (server-reactive (config/config)))
@@ -193,6 +203,6 @@
      (not socket-repl)
      (s/stop-servers))))
 
-(state/add-listener ::config/on-update ::server-reactive #'server-reactive)
+; (state/add-listener ::config/on-update ::server-reactive #'server-reactive)
 
 
