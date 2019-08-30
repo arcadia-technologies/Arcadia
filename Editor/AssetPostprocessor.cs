@@ -15,7 +15,8 @@ namespace Arcadia
 
 		static AssetPostprocessor()
 		{
-            Util.require("arcadia.internal.compiler");
+			// NOTE this is a possible site for our double-init
+            // Util.require("arcadia.internal.compiler");
 			// kill repl when exiting unity
 			AppDomain.CurrentDomain.ProcessExit += (object sender, EventArgs e) => { StopWatchingFiles(); };
 

@@ -23,7 +23,8 @@ namespace Arcadia
 
 		static BuildPipeline ()
 		{
-            Util.require("arcadia.internal.editor-interop");
+			// NOTE this is a possible site for our double-init
+            // Util.require("arcadia.internal.editor-interop");
 			//EditorUtility.ClearProgressBar();
 		}
 

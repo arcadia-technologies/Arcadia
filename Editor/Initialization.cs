@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -81,6 +81,7 @@ namespace Arcadia
 
         public static void Initialize()
         {
+            return;
             if (initialized)
                 return;
 
