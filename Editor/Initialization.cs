@@ -133,7 +133,8 @@ namespace Arcadia
         {
             var path = BasicPaths.PathToCompiled + Path.PathSeparator +
                     Path.GetFullPath(BasicPaths.PathCombine(BasicPaths.ClojureDllFolder, "..", "Source")) + Path.PathSeparator +
-                 BasicPaths.BestGuessDataPath;
+                    BasicPaths.BestGuessDataPath + Path.PathSeparator +
+                    BasicPaths.PathCombine(BasicPaths.BestGuessDataPath, "Clojure", "Clojure.Source");
             return path;
         }
 
