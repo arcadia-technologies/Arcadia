@@ -22,9 +22,10 @@
   [] (if (File/Exists default-config-file-path)
        (edn/read-string (slurp default-config-file-path
                                :encoding "utf8"))
-       (throw (Exception. (str "Default Arcadia configuration file missing. "
-                               default-config-file-path
-                               " does not exist")))))
+       #_ (throw (Exception. (str "Default Arcadia configuration file missing. "
+                                  default-config-file-path
+                                  " does not exist")))
+       {}))
 
 (defn user-config-file
   "Path to the user defined configuration file"
