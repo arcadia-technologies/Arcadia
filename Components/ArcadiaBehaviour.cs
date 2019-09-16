@@ -340,11 +340,11 @@ public class ArcadiaBehaviour : MonoBehaviour, ISerializationCallbackReceiver
 			var policy = configMap.valAt(NonSerializableHooksKeyword) as Keyword;
 			if (policy == null || policy == WarningKeyword)
 			{
-				Debug.LogWarningFormat("Non-serializable hook {2} attached to object {0} at key {1}.\n" +
-				                       "This GameObject will throw an exception if cloned, saved into " +
-				                       "a scene or prefab, or viewed in the inspector.\n" +
-				                       "This warning can be disabled or turned into an error in your configuration.edn " +
-				                       "file.", gameObject, key, f);
+//				Debug.LogWarningFormat("Non-serializable hook {2} attached to object {0} at key {1}.\n" +
+//				                       "This GameObject will throw an exception if cloned, saved into " +
+//				                       "a scene or prefab, or viewed in the inspector.\n" +
+//				                       "This warning can be disabled or turned into an error in your configuration.edn " +
+//				                       "file.", gameObject, key, f);
 			}
 			else if (policy == ErrorKeyword)
 			{
