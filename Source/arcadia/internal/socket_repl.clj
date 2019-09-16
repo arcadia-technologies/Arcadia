@@ -6,7 +6,8 @@
             [arcadia.internal.state :as state]
             [arcadia.internal.stacktrace :as stacktrace]
             arcadia.data)
-  (:import [System.Threading Thread]))
+  (:import [System.Threading Thread]
+           [System.Reflection BindingFlags]))
 
 ;; Think this sleaziness has to be a macro, for `set!`
 ;; Getting these from clojure.main
